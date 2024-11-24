@@ -1,29 +1,19 @@
 import { useState } from 'react';
-
-function Square() {
-  const [value, setValue] = useState(null);
-
-  function handleClick() {
-    setValue('X');
+export default function Board() {
+  const [squares, setSquares] = useState(Array(9).fill(null));
+  
+  function handleClick(i) {
+    const nextSquares = squares.slice();
+    nextSquares[i] = "X";
+    setSquares(nextSquares)
   }
 
   return (
-    <button
-      className="square"
-      onClick={handleClick}
-    >
-      {value}
-    </button>
-  );
-}
-
-export default function Board() {
-  return (
     <>
       <div className="board-row">
-        <Square />
-        <Square />
-        <Square />
+        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
       </div>
       <div className="board-row">
         <Square />
@@ -36,5 +26,13 @@ export default function Board() {
         <Square />
       </div>
     </>
+  )
+}
+
+function Square({value, onSquareClick}) {
+  return (
+    <button className="square" onClick={onSquareClick}>
+      {value}
+    </button>
   );
 }
